@@ -222,6 +222,7 @@ class MimeMessageTransformer {
       html = html.replaceAll('bgcolor="#ffffff"', '');
     }
     final document = parse(html);
+    document.attributes['dir'] = 'rtl';
     // if (configuration.blockExternalImages) {
     //   blockExternalImageProcessor.process(document, this);
     // }
