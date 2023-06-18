@@ -222,8 +222,12 @@ class MimeMessageTransformer {
       html = html.replaceAll('bgcolor="#ffffff"', '');
     }
     final document = parse(html);
-    document.attributes['dir'] = 'rtl';
-    document.nodes[0].attributes['dir'] = 'rtl';
+    //  document.attributes['dir'] = 'rtl';
+
+    final hasRtl = _hasRtlText(document.nodes[0]);
+    if (hasRtl) {
+      document.nodes[0].attributes['dir'] = 'rtl';
+    }
     // if (configuration.blockExternalImages) {
     //   blockExternalImageProcessor.process(document, this);
     // }
@@ -235,6 +239,32 @@ class MimeMessageTransformer {
 
   /// Retrieves the outer HTML of the message after transformation
   String toHtml(MimeMessage message) => toDocument(message).outerHtml;
+
+  bool _hasRtlText(Node node) {
+    if (node.nodeType == Node.TEXT_NODE) {
+      return _isArabicText(node.text);
+    }
+
+    if (node.children.isEmpty) {
+      return false;
+    }
+
+    for (final child in node.children) {
+      return _hasRtlText(child);
+    }
+
+    return false;
+  }
+
+  bool _isArabicText(String? text) {
+    if (text == null) {
+      return false;
+    }
+    final regex = RegExp(
+        '^[0-9٠-٩ء-ي.!#\$%&\'*+/=?^_`{|}~-]+@[0-9٠-٩ء-ي](?:[0-9٠-٩ء-ي]{0,61}[0-9٠-٩ء-ي])?(?:\.[0-9٠-٩ء-ي](?:v{0,61}[0-9٠-٩ء-ي])?)*\$');
+    final char = RegExp('[A-Za-zء-ي]');
+    return char.hasMatch(text);
+  }
 }
 
 /// Transforms plain text messages.
