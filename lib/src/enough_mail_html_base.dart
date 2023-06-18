@@ -223,6 +223,7 @@ class MimeMessageTransformer {
     }
     final document = parse(html);
     document.attributes['dir'] = 'rtl';
+    document.nodes[0].attributes['dir'] = 'rtl';
     // if (configuration.blockExternalImages) {
     //   blockExternalImageProcessor.process(document, this);
     // }
