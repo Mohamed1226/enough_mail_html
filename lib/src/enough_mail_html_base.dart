@@ -224,10 +224,11 @@ class MimeMessageTransformer {
     final document = parse(html);
     //  document.attributes['dir'] = 'rtl';
 
-    final hasRtl = _hasRtlText(document.nodes[0]);
-    if (hasRtl) {
-      document.nodes[0].attributes['dir'] = 'rtl';
-    }
+    // final hasRtl = _hasRtlText(document.nodes[0]);
+    // if (hasRtl) {
+    //   document.nodes[0].attributes['dir'] = 'rtl';
+    // }
+    // document.nodes[0].attributes['dir'] = 'rtl';
     // if (configuration.blockExternalImages) {
     //   blockExternalImageProcessor.process(document, this);
     // }
