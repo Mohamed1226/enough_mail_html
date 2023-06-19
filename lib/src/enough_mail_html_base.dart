@@ -221,15 +221,30 @@ class MimeMessageTransformer {
       html = html.replaceAll('bgcolor="#FFFFFF"', '');
       html = html.replaceAll('bgcolor="#ffffff"', '');
     }
+
+    final isEnglish = _isEnglishText(html.trim());
+    if (isEnglish == true) {
+      if (html.trim().contains('dir=\"rtl\"')) {
+        html = html.replaceAll('dir=\"rtl\"', 'dir=\"ltr\"');
+      }
+    } else {
+      if (html.trim().contains('dir=\"ltr\"')) {
+        html = html.replaceAll('dir=\"ltr\"', 'dir=\"rtl\"');
+      }
+    }
     final document = parse(html);
     //  document.attributes['dir'] = 'rtl';
-
-    final hasRtl = _hasRtlText(document.nodes[0]);
-    if (hasRtl) {
-      document.nodes[0].attributes['dir'] = 'rtl';
-    }else{
+    if (isEnglish == true) {
       document.nodes[0].attributes['dir'] = 'ltr';
+    } else {
+      document.nodes[0].attributes['dir'] = 'rtl';
     }
+    // final hasRtl = _hasRtlText(document.nodes[0]);
+    // if (hasRtl) {
+    //   document.nodes[0].attributes['dir'] ='rtl';
+    // }else{
+    //   document.nodes[0].attributes['dir'] = 'ltr';
+    // }
 
     // if (configuration.blockExternalImages) {
     //   blockExternalImageProcessor.process(document, this);
@@ -248,15 +263,24 @@ class MimeMessageTransformer {
       return _isArabicText(node.text);
     }
 
-    if (node.children.isEmpty) {
-      return false;
-    }
+    // if (node.children.isEmpty) {
+    //   return false;
+    // }
 
     for (final child in node.children) {
       return _hasRtlText(child);
     }
 
     return false;
+  }
+
+  bool _isEnglishText(String? text) {
+    if (text == null) {
+      return false;
+    }
+    final regex =  RegExp(r'^[a-zA-Z0-9_&#-@$()!?/"{}_\\W]*$');
+    // final regex = RegExp(r"^[a-zA-Z][a-zA-Z0-9]*");
+    return regex.hasMatch(text);
   }
 
   bool _isArabicText(String? text) {
