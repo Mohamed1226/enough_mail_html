@@ -283,7 +283,7 @@ class MimeMessageTransformer {
 
     final extractedText = text.replaceAll(exp, '');
 
-    final regex = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s]+$');
+    final regex = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s,]+[.]?$');
 
     return regex.hasMatch(extractedText);
   }
