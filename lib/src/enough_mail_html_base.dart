@@ -222,7 +222,7 @@ class MimeMessageTransformer {
       html = html.replaceAll('bgcolor="#ffffff"', '');
     }
 
-    final isEnglish = _isEnglishText(html.trim());
+    final isEnglish = _isEnglishText(html);
     if (isEnglish == true) {
       if (html.trim().contains('dir=\"rtl\"')) {
         html = html.replaceAll('dir=\"rtl\"', 'dir=\"ltr\"');
