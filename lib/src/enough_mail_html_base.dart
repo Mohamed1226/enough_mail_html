@@ -278,14 +278,18 @@ class MimeMessageTransformer {
     if (text == null) {
       return false;
     }
+
     ///remove html code
     final exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: true);
 
     final extractedText = text.replaceAll(exp, '');
 
     final regex = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s,]+[.]?$');
-
-    return regex.hasMatch(extractedText);
+    final regex1 = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s,<>/;]+[.]?$');
+    final regex2 = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s,<>/;\n]+[.]?$');
+    return regex.hasMatch(extractedText) ||
+        regex1.hasMatch(extractedText) ||
+        regex2.hasMatch(extractedText);
   }
 
   bool _isArabicText(String? text) {
