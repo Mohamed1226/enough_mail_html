@@ -281,7 +281,7 @@ class MimeMessageTransformer {
 
     ///remove html ,css code
    // final exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: true);
-    final exp = RegExp(r'<[^>]*(>|$)', multiLine: true, caseSensitive: true);
+      final exp = RegExp(r'<[^>]*>|style=\"([^\"]*)\"', multiLine: true, caseSensitive: true);
     final extractedText = text.replaceAll(exp, '');
 
 
