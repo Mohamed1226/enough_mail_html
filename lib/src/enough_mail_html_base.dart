@@ -279,10 +279,11 @@ class MimeMessageTransformer {
       return false;
     }
 
-    ///remove html code
-    final exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: true);
-
+    ///remove html ,css code
+   // final exp = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: true);
+    final exp = RegExp(r'<[^>]*(>|$)', multiLine: true, caseSensitive: true);
     final extractedText = text.replaceAll(exp, '');
+
 
     final regex = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s,]+[.]?$');
     final regex1 = RegExp(r'^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._\-\s,<>/;]+[.]?$');
