@@ -237,6 +237,12 @@ class MimeMessageTransformer {
     if (isEnglish == true) {
       document.nodes[0].attributes['dir'] = 'ltr';
     } else {
+      // Check if the root element already has a 'dir' attribute
+      final hasDir = document.body!.attributes.containsKey('dir');
+      if (!hasDir) {
+        // Add 'dir' attribute to the body or another suitable element
+        document.body!.attributes['dir'] = 'rtl';
+      }
       document.nodes[0].attributes['dir'] = 'rtl';
     }
     // final hasRtl = _hasRtlText(document.nodes[0]);
